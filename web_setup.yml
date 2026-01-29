@@ -1,0 +1,22 @@
+---
+- name: "Platform Team First Infrastructure Setup"
+  hosts: my_computer
+  become: true
+
+  tasks:
+    - name: "1. Install Nginx Latest Version"
+      apt:
+        name: nginx
+        state: present
+        update_cache: yes
+
+    - name: "2. Create Custom Welcome Page"
+      copy:
+        content: "<h1>Hello! This is the first automation page by 21yo Team Leader!\n</h1>"
+        dest: /var/www/html/index.html
+
+    - name: "3. Start and Enable Nginx Service"
+      service:
+        name: nginx
+        state: started
+        enabled: yes
