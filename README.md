@@ -53,11 +53,11 @@ ansible my_computer -i hosts.ini -m ping
     # 프로젝트 루트 폴더에서 실행
     ansible-playbook -i hosts.ini deploy_app.yml -K
     ```
-    *   `-K` 옵션 사용 시 본인의 **WSL 비밀번호**를 입력하세요.
+    *   `-K` 옵션 사용 시 본인의 **OS 비밀번호**를 입력하세요.
 
 ---
 
-### Step 4. GitHub Actions 연동 (CI/CD)
+### Step 4. GitHub Actions 연동 (CI)
 매번 수동으로 빌드/푸시하는 과정을 자동화하기 위해 GitHub Actions를 설정합니다.
 
 1.  **GitHub 저장소 생성 및 연결:**
@@ -116,10 +116,30 @@ ansible my_computer -i hosts.ini -m ping
     *   Docker Hub에 새로운 이미지가 업로드되었는지 확인합니다.
 
 ## ✅ 결과 검증
-배포가 완료되면 브라우저나 터미널에서 접속을 확인합니다.
+배포가 완료되면 다시 앤서블 플레이북을 실행한 뒤, 브라우저나 터미널에서 접속을 확인합니다.
 ```bash
+ansible-playbook -i hosts.ini deploy_app.yml -K
+
 curl http://localhost:8080
 ```
 **"Success! Dockerized Mini Web Server..."** 문구가 뜨면 실습 완료입니다!
 
 ---
+
+## 📅 향후 과제 로드맵 (2주차 ~)
+
+**관련 내용을 완벽 숙달한다기보단 직접 찾아보고 눈에 익히기!**
+
+### 1. 인프라-플랫폼 연동 및 배포 자동화 검증
+- **인프라 팀 협업:** Terraform으로 생성된 AWS EC2 인스턴스의 퍼블릭 IP(Elastic IP) 및 SSH 보안키(`.pem`) 수령.
+- **Inventory 설정:** `hosts.ini` 파일에 수령한 서버 IP 반영 및 접속 정보(User, Key 경로) 업데이트.
+- **배포 테스트:** 로컬 환경에서 Ansible Playbook을 실행하여 원격 서버 내 Docker 엔진 설치 및 `mini-app` 컨테이너 기동 최종 확인.
+
+### 2. CI/CD 고도화: AWS 공식 GitHub Actions 도입 및 조사
+- **AWS 전용 Actions 라이브러리 분석:**
+  - `aws-actions/configure-aws-credentials`: GitHub Secrets와 연동하여 AWS 자격 증명을 안전하게 설정하는 방법 조사.
+  - `aws-actions/amazon-ec2-deploy-task-definition` 등 EC2 관련 공식 액션 활용 사례 탐색.
+- **배포 방식 비교 및 선정:** 
+  - 현재의 **SSH-Ansible** 방식과 **AWS Native 서비스(CodeDeploy 등)** 연동 방식의 장단점 비교.
+  - 우리 프로젝트 규모에 최적화된 "Push-to-Deploy" 프로세스 확립.
+- **보안 강화:** GitHub Secrets를 활용한 민감 정보(Access Key, Private Key) 관리 체계 고도화.
