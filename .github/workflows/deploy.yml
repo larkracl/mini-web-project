@@ -23,4 +23,6 @@ jobs:
         with:
           context: ./mini-app
           push: true
-          tags: "${{ secrets.DOCKER_USERNAME }}/mini-app:latest"
+          tags: |
+	    ${{ secrets.DOCKER_USERNAME }}/mini-app:latest
+	    ${{ secrets.DOCKER_USERNAME }}/mini-app:${{ github.sha }}

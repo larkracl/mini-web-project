@@ -4,7 +4,7 @@
     become: true 
   
     vars:
-      docker_id: "" # [수정] 본인 ID
+      docker_id: "larkracl" # [수정] 본인 ID
       image_name: "mini-app" # 본인이 docker hub에 올린 이미지의 이름과 같게 만들기
       container_name: "my-running-app"
   
